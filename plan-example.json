@@ -1,0 +1,148 @@
+﻿{
+    "project": "C:\\path\\to\\hcl_333852328419.net",
+    "devices":  {
+                    "SW1":  {
+                                "id":  1,
+                                "save":  true,
+                                "commands":  [
+                                                 "system-view",
+                                                 "sysname SW1",
+                                                 "vlan 10",
+                                                 "vlan 20",
+                                                 "quit",
+                                                 "interface Bridge-Aggregation 1",
+                                                 " link-aggregation mode dynamic",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/1",
+                                                 " port link-aggregation group 1",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/2",
+                                                 " port link-aggregation group 1",
+                                                 "quit",
+                                                 "interface Bridge-Aggregation 1",
+                                                 " port link-type trunk",
+                                                 " port trunk permit vlan 10 20",
+                                                 "quit",
+                                                 "interface Vlan-interface 10",
+                                                 " ip address 192.168.10.1 255.255.255.0",
+                                                 "quit",
+                                                 "interface Vlan-interface 20",
+                                                 " ip address 192.168.20.1 255.255.255.0",
+                                                 "quit",
+                                                 "dhcp enable",
+                                                 "dhcp server ip-pool vlan10",
+                                                 " network 192.168.10.0 mask 255.255.255.0",
+                                                 " gateway-list 192.168.10.1",
+                                                 " dns-list 114.114.114.114",
+                                                 "quit",
+                                                 "dhcp server ip-pool vlan20",
+                                                 " network 192.168.20.0 mask 255.255.255.0",
+                                                 " gateway-list 192.168.20.1",
+                                                 " dns-list 114.114.114.114",
+                                                 "quit",
+                                                 "interface Vlan-interface 10",
+                                                 " dhcp select server",
+                                                 "quit",
+                                                 "interface Vlan-interface 20",
+                                                 " dhcp select server",
+                                                 "quit",
+                                                 "telnet server enable",
+                                                 "local-user admin class manage",
+                                                 " password simple Lab@2026test",
+                                                 " service-type telnet",
+                                                 " authorization-attribute user-role network-admin",
+                                                 "quit",
+                                                 "line vty 0 63",
+                                                 " authentication-mode scheme",
+                                                 " user-role network-admin",
+                                                 "quit",
+                                                 "return"
+                                             ],
+                                "verify":  [
+                                               "display ip interface brief",
+                                               "display current-configuration configuration dhcp-pool-templet",
+                                               "display dhcp server ip-in-use",
+                                               "display link-aggregation verbose"
+                                           ],
+                                "checks":  [
+                                               "192.168.10.1",
+                                               "192.168.20.1",
+                                               "dhcp server ip-pool vlan10",
+                                               "dhcp server ip-pool vlan20",
+                                               "192.168.10.2",
+                                               "192.168.20.2",
+                                               "telnet"
+                                           ]
+                            },
+                    "SW2":  {
+                                "id":  2,
+                                "save":  true,
+                                "commands":  [
+                                                 "system-view",
+                                                 "sysname SW2",
+                                                 "vlan 10",
+                                                 "vlan 20",
+                                                 "quit",
+                                                 "interface Bridge-Aggregation 1",
+                                                 " link-aggregation mode dynamic",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/1",
+                                                 " port link-aggregation group 1",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/2",
+                                                 " port link-aggregation group 1",
+                                                 "quit",
+                                                 "interface Bridge-Aggregation 1",
+                                                 " port link-type trunk",
+                                                 " port trunk permit vlan 10 20",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/3",
+                                                 " port link-type trunk",
+                                                 " port trunk permit vlan 10 20",
+                                                 "quit",
+                                                 "return"
+                                             ],
+                                "verify":  [
+                                               "display link-aggregation verbose"
+                                           ],
+                                "checks":  [
+                                               "Aggregation Mode: Dynamic",
+                                               "GE1/0/1",
+                                               "GE1/0/2",
+                                               "Selected"
+                                           ]
+                            },
+                    "SW3":  {
+                                "id":  3,
+                                "save":  true,
+                                "commands":  [
+                                                 "system-view",
+                                                 "sysname SW3",
+                                                 "vlan 10",
+                                                 "vlan 20",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/1",
+                                                 " port link-type trunk",
+                                                 " port trunk permit vlan 10 20",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/2",
+                                                 " port access vlan 10",
+                                                 "quit",
+                                                 "interface GigabitEthernet 1/0/3",
+                                                 " port access vlan 20",
+                                                 "quit",
+                                                 "return"
+                                             ],
+                                "verify":  [
+                                               "display vlan 10",
+                                               "display vlan 20"
+                                           ],
+                                "checks":  [
+                                               "VLAN ID: 10",
+                                               "VLAN ID: 20",
+                                               "GigabitEthernet1/0/2",
+                                               "GigabitEthernet1/0/3"
+                                           ]
+                            }
+                }
+}
